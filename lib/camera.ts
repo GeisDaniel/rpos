@@ -177,7 +177,7 @@ class Camera {
       }
 
       var html = "<h1>RPOS - ONVIF NVT Camera</h1>";
-      html += "<b>Video Stream:</b> rtsp://username:password@deviceIPaddress:" + this.config.RTSPPort.toString() + "/" + this.config.RTSPName.toString();
+      html += "<b>Video Stream:</b> rtsp://" + this.config.RTSPAddress.toString() + ":" + this.config.RTSPPort.toString() + "/" + this.config.RTSPName.toString();
       html += "<br>";
 
       html = parseControls(html, 'User Controls', 'UserControls', v4l2ctl.Controls.UserControls);
