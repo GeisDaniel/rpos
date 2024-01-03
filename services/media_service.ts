@@ -52,7 +52,7 @@ class MediaService extends SoapService {
             utils.log.info("ffmpeg - already running");
             this.ffmpeg_responses.push(response);
           } else {
-            var cmd = `ffmpeg -fflags nobuffer -probesize 256 -rtsp_transport tcp -i rtsp://127.0.0.1:${this.config.RTSPPort}/${this.config.RTSPName} -vframes 1  -r 1 -s 640x360 -y /dev/shm/snapshot.jpg`;
+            var cmd = `ffmpeg -fflags nobuffer -probesize 256 -rtsp_transport tcp -i rtsp://${this.config.RTSPAddress}:${this.config.RTSPPort}/${this.config.RTSPName} -vframes 1  -r 1 -s 640x360 -y /dev/shm/snapshot.jpg`;
             var options = { timeout: 15000 };
             utils.log.info("ffmpeg - starting");
             this.ffmpeg_responses.push(response);
