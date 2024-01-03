@@ -196,7 +196,7 @@ class MediaService extends SoapService {
         token: "video_src_token"
       },
       Framerate: 25,
-      Resolution: { Width: 1920, Height: 1280 }
+      Resolution: { Width: 1920, Height: 1080 }
     };
 
     var videoSourceConfiguration = {
@@ -216,7 +216,8 @@ class MediaService extends SoapService {
     var profile = {
       Name: "CurrentProfile",
       attributes: {
-        token: "profile_token"
+        token: "profile_token",
+        fixed: true
       },
       VideoSourceConfiguration: videoSourceConfiguration,
       VideoEncoderConfiguration: videoEncoderConfiguration,
