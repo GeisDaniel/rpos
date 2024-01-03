@@ -107,7 +107,7 @@ class SoapService {
         var password_ok = (user === onvif_username && password === generated_password);
 
         if (password_ok == false) {
-          utils.log.info('Invalid username/password with ' + methodName);
+          utils.log.info('Invalid username/password with ' + methodName + '[' + user + '|' + onvif_username + '] [' + password + '|' + onvif_password + ')');
           throw NOT_IMPLEMENTED;
         }
       };
