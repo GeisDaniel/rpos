@@ -264,7 +264,7 @@ class MediaService extends SoapService {
         token: "encoder_config_token"
       },
       Name: "PiCameraConfiguration",
-      UseCount: 0,
+      UseCount: 1,
       Encoding: "H264",
       Resolution: {
         Width: cameraSettings.resolution.Width,
@@ -296,13 +296,13 @@ class MediaService extends SoapService {
       attributes: {
         token: "video_src_token"
       },
-      Framerate: 25,
+      Framerate: 30,
       Resolution: { Width: 1920, Height: 1080 }
     };
 
     var videoSourceConfiguration = {
       Name: "Primary Source",
-      UseCount: 0,
+      UseCount: 1,
       attributes: {
         token: "video_src_config_token"
       },
