@@ -12,6 +12,57 @@ import { exec } from 'child_process';
 import PTZService = require('./ptz_service');
 var utils = Utils.utils;
 
+var SOAP_FAULT_MAX_NVT_PROFILES = {
+  Fault: {
+    attributes: { // Add namespace here. Really wanted to put it in Envelope but this should be valid
+      'xmlns:ter' : 'http://www.onvif.org/ver10/error',
+    },
+    Code: {
+      Value: "soap:Receiver",
+      Subcode: {
+        Value: "ter:Action",
+        Subcode: {
+          Value: "ter:MaxNVTProfiles",  
+        },
+      },
+    },
+    Reason: {
+      Text: {
+        attributes: {
+          'xml:lang': 'en',
+        },
+        $value: 'The maximum number of supported profiles supported by the device has been reached.',
+      }
+    }
+  }
+};
+
+var SOAP_FAULT_RECEIVER_ACTION_CONFIG_CONFLICT = {
+  Fault: {
+    attributes: { // Add namespace here. Really wanted to put it in Envelope but this should be valid
+      'xmlns:ter' : 'http://www.onvif.org/ver10/error',
+    },
+    Code: {
+      Value: "soap:Receiver",
+      Subcode: {
+        Value: "ter:Action",
+        Subcode: {
+          Value: "ter:ConfigurationConflict",  
+        },
+      },
+    },
+    Reason: {
+      Text: {
+        attributes: {
+          'xml:lang': 'en',
+        },
+        $value: 'The new settings conflicts with other uses of the configuration.',
+      }
+    }
+  }
+};
+
+
 class MediaService extends SoapService {
   media_service: any;
   camera: Camera;
@@ -290,8 +341,12 @@ class MediaService extends SoapService {
     };
 
     port.CreateProfile = (args) => {
+      /*
       var CreateProfileResponse = { Profile: profile };
       return CreateProfileResponse;
+      */
+      // Return fault to prevent adding profiles
+      return SOAP_FAULT_MAX_NVT_PROFILES;
     };
 
     port.DeleteProfile = (args) => {
@@ -325,6 +380,8 @@ class MediaService extends SoapService {
     };
 
     port.SetVideoEncoderConfiguration = (args) => {
+
+      /*
       var settings = {
         bitrate: args.Configuration.RateControl.BitrateLimit,
         framerate: args.Configuration.RateControl.FrameRateLimit,
@@ -337,6 +394,9 @@ class MediaService extends SoapService {
 
       var SetVideoEncoderConfigurationResponse = {};
       return SetVideoEncoderConfigurationResponse;
+      */
+      // Return fault to prevent changes
+      return SOAP_FAULT_RECEIVER_ACTION_CONFIG_CONFLICT;
     };
 
     port.GetVideoEncoderConfigurationOptions = (args) => {
