@@ -62,6 +62,56 @@ var SOAP_FAULT_RECEIVER_ACTION_CONFIG_CONFLICT = {
   }
 };
 
+var SOAP_FAULT_SENDER_INVALIDARG_NOPROFILE = {
+  Fault: {
+    attributes: { // Add namespace here. Really wanted to put it in Envelope but this should be valid
+      'xmlns:ter' : 'http://www.onvif.org/ver10/error',
+    },
+    Code: {
+      Value: "soap:Sender",
+      Subcode: {
+        Value: "ter:InvalidArgVal",
+        Subcode: {
+          Value: "ter:NoProfile",  
+        },
+      },
+    },
+    Reason: {
+      Text: {
+        attributes: {
+          'xml:lang': 'en',
+        },
+        $value: 'The requested profile tokenProfileTokendoes not exist.',
+      }
+    }
+  }
+};
+
+var SOAP_FAULT_SENDER_ACTION_DELETEFIXED = {
+  Fault: {
+    attributes: { // Add namespace here. Really wanted to put it in Envelope but this should be valid
+      'xmlns:ter' : 'http://www.onvif.org/ver10/error',
+    },
+    Code: {
+      Value: "soap:Sender",
+      Subcode: {
+        Value: "ter:Action",
+        Subcode: {
+          Value: "ter:DeletionOfFixedProfile",  
+        },
+      },
+    },
+    Reason: {
+      Text: {
+        attributes: {
+          'xml:lang': 'en',
+        },
+        $value: 'The fixed Profile cannot be deleted.',
+      }
+    }
+  }
+};
+
 
 class MediaService extends SoapService {
   media_service: any;
@@ -350,8 +400,19 @@ class MediaService extends SoapService {
     };
 
     port.DeleteProfile = (args) => {
+      /*
       var DeleteProfileResponse = {};
       return DeleteProfileResponse;
+      */
+      // Return fault to prevent removing profiles
+      if(args.ProfileToken == "profile_token")
+      {
+        return SOAP_FAULT_SENDER_ACTION_DELETEFIXED;
+      }
+      else
+      {
+        return SOAP_FAULT_SENDER_INVALIDARG_NOPROFILE;
+      }
     };
 
     port.GetVideoSources = (args) => {
