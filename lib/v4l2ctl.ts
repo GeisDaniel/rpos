@@ -199,10 +199,13 @@ export module v4l2ctl {
     };
 
     function execV4l2(cmd: string): string {
-        try {
-            return utils.execSync(`v4l2-ctl ${cmd}`).toString();
-        } catch (err) {
-            return '';
+        if(this.config.RTSPServer != 0)
+        {
+            try {
+                return utils.execSync(`v4l2-ctl ${cmd}`).toString();
+            } catch (err) {
+                return '';
+            }
         }
     }
 
